@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+// Provide a minimal declaration for `process.env` to avoid needing
+// Node type definitions in this project setup.
+declare const process: { env: { CI?: string | undefined } };
 
 export default defineConfig({
   testDir: "./tests",
