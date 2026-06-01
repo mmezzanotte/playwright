@@ -29,7 +29,7 @@ test('POST create post', async ({ request }) => {
     }
   );
 
-  expect(createResponse.status()).toBe(201);
+  expect(createResponse .status()).toBe(201);
 
   const createBody =
   await createResponse.json();

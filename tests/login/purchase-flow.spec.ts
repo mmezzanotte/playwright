@@ -1,16 +1,14 @@
-import { test } from "../../fixtures/baseTest";
-
-import { expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 
 import { CheckoutPage } from "../../pages/CheckoutPage";
+import { LoginPage } from "../../pages/LoginPAge";
+import { InventoryPage } from "../../pages/InventoryPage";
 
-test(
-  "complete purchase flow",
-
-  async ({ page, loginPage, inventoryPage }) => { // playwright te los inyecta automaticamente.
+test("complete purchase flow", async ({ page }) => {
     // No los creas, solo los recibis.
-    
 
+    const loginPage = new LoginPage(page);
+    const inventoryPage = new InventoryPage(page);
     const checkoutPage = new CheckoutPage(page);
 
     // LOGIN
