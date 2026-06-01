@@ -14,27 +14,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Node + cache npm
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: "npm" # 👈 cache de dependencias npm
+          cache: "npm"
 
-      # 👇 ESTE ES EL CACHE CLAVE DE PLAYWRIGHT
+      # Cache de browsers Playwright (CLAVE)
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
 
+      # Instalar dependencias
       - name: Install dependencies
         run: npm ci
 
+      # Instalar browsers (sin duplicar descargas)
       - name: Install Playwright Browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps
 
+      # Tests
       - name: Run Playwright tests
         run: npx playwright test
 
+      # Reporte
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
